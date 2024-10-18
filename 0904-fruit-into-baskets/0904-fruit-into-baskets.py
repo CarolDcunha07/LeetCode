@@ -1,26 +1,18 @@
 class Solution:
     def totalFruit(self, fruits: List[int]) -> int:
-        n=len(fruits)
-        curr_type=fruits[0]
-        curr_index=0
-        other_type=None
-        strike=1
-        res=0
-        
-        for i in range(1,n):
-            new_type=fruits[i]
-            if new_type==curr_type:
-                strike+=1
-            elif new_type==other_type:
-                strike+=1
-                curr_type,other_type=other_type,curr_type
-                curr_index=i
-            else:
-                res=max(res,strike)
-                strike=i-curr_index+1
-                curr_index=i
-                curr_type,other_type=new_type,curr_type
-        res=max(res,strike)
+        c=collections.defaultdict(int)
+        l,total,res=0,0,0
+        for r in range(len(fruits)):
+            c[fruits[r]]+=1
+            total+=1
+            while len(c)>2:
+                f=fruits[l]
+                c[f]-=1
+                total-=1
+                l+=1
+                if not c[f]:
+                    c.pop(f)
+            res=max(res,total)
         return res
             
             
